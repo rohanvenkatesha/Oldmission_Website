@@ -4,23 +4,28 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import { Navigation } from 'swiper'
-import { FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
-export default function MembershipPlansWrapper() {
+type Props = {
+  delay?: number
+}
+
+export default function MembershipPlansWrapper({ delay = 0.9 }: Props) {
   const [showMemberships, setShowMemberships] = useState(false)
   const swiperRef = useRef<any>(null)
 
-  const handlePrev = () => {
-    swiperRef.current?.slidePrev()
-  }
-
-  const handleNext = () => {
-    swiperRef.current?.slideNext()
-  }
+  const handlePrev = () => swiperRef.current?.slidePrev()
+  const handleNext = () => swiperRef.current?.slideNext()
 
   return (
     <section className="max-w-7xl mx-auto py-16 px-6">
-      <div className="flex justify-center mb-10">
+      <motion.div
+        className="flex justify-center mb-10"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay }}
+      >
         <button
           onClick={() => setShowMemberships(!showMemberships)}
           className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
@@ -29,7 +34,7 @@ export default function MembershipPlansWrapper() {
         >
           {showMemberships ? 'Hide Memberships' : 'View Memberships'}
         </button>
-      </div>
+      </motion.div>
 
       <div
         id="membership-carousel"
@@ -39,10 +44,8 @@ export default function MembershipPlansWrapper() {
       >
         {showMemberships && (
           <>
-            {/* Membership Types Slider */}
             <div className="flex items-center justify-between mb-6">
               <button
-                aria-label="Previous Membership Type"
                 onClick={handlePrev}
                 className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
               >
@@ -54,7 +57,6 @@ export default function MembershipPlansWrapper() {
               </h2>
 
               <button
-                aria-label="Next Membership Type"
                 onClick={handleNext}
                 className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
               >
@@ -66,7 +68,7 @@ export default function MembershipPlansWrapper() {
               modules={[Navigation]}
               onSwiper={(swiper) => (swiperRef.current = swiper)}
               slidesPerView={1}
-              navigation={false} // We use custom buttons
+              navigation={false}
               pagination={false}
               spaceBetween={30}
               style={{ paddingBottom: '3rem' }}
@@ -74,7 +76,6 @@ export default function MembershipPlansWrapper() {
               {memberships.map(({ type, plans }) => (
                 <SwiperSlide key={type}>
                   <h3 className="text-2xl font-semibold mb-8 dark:text-white">{type}</h3>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {plans.map(({ title, bullets, price }, idx) => (
                       <div

@@ -33,6 +33,7 @@ import ChatbotWidget from '../src/components/ChatbotWidget'
 import ContactSection from '../src/components/ContactSection'
 import Footer from '../src/components/Footer'
 import QuoteSection from '../src/components/QuoteSection'
+import AestheticsNutritionGrid from '../src/components/AestheticsNutritionGrid'
 
 
 
@@ -77,15 +78,25 @@ export default function Home() {
         <ServicesGrid />
       </motion.div>
 
-      <motion.div
+            <motion.div
         initial="hidden"
         whileInView="visible"
         variants={slideUpVariant}
         transition={{ duration: 0.7, delay: 0.3 }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <WhyChooseUs />
+        <AestheticsNutritionGrid />
       </motion.div>
+
+      {/* <motion.div
+        initial="hidden"
+        whileInView="visible"
+        variants={slideUpVariant}
+        transition={{ duration: 0.7, delay: 0.4 }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <WhyChooseUs />
+      </motion.div> */}
 
       <motion.div
         initial="hidden"

@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { FaArrowRight } from 'react-icons/fa'
 import MembershipPlansWrapper from '../components/MembershipPlansWrapper'
-import { memberships } from '../data/memberships'  // make sure you have this file
 
 const services = [
   {
@@ -50,18 +49,74 @@ const services = [
 ]
 
 export default function ServicesGrid() {
-  const [showMemberships, setShowMemberships] = useState(false)
-
   return (
-    <section id='services' className="py-16 px-6 max-w-7xl mx-auto">
-      {/* Divider */}
-      <div className="h-1 w-24 bg-blue-600 mx-auto mb-4 rounded-full" />
+    <section id="services" className="py-24 px-4 bg-white dark:bg-gray-900 flex flex-col items-center justify-center">
+      {/* Header Section */}
+      <div className="text-center max-w-3xl mb-12">
+        <motion.div
+          className="mx-auto mb-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
+          viewport={{ once: false }}
+        >
+          <img
+            src="/logos/omlm1.png"
+            alt="Old Mission Medicine Logo"
+            className="mx-auto w-20 h-auto"
+          />
+        </motion.div>
 
-      <h2 className="text-3xl font-semibold mb-12 text-center dark:text-white">
-        Old Mission Lifestyle Medicine Services
-      </h2>
+        <motion.h2
+          className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
+          viewport={{ once: false }}
+        >
+          OLD MISSION LIFESTYLE MEDICINE
+        </motion.h2>
 
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.p
+          className="mt-4 text-base sm:text-lg text-gray-700 dark:text-gray-300 text-center max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6, ease: 'easeOut' }}
+          viewport={{ once: false }}
+        >
+          Our healthcare professionals customize your care and keep your health, wellness, and longevity a top priority.
+          Lifestyle medicine focuses on diet, physical activity, adequate sleep, stress reduction, responsible supplement use,
+          and fostering healthy relationships to prevent, manage, and often reverse chronic illnesses. Our team provides
+          personalized and convenient telehealth consultations through our affordable membership plan, no matter where you are.
+        </motion.p>
+
+        <motion.p
+          className="mt-4 text-sm italic text-gray-600 dark:text-gray-400 text-center max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.6, ease: 'easeOut' }}
+          viewport={{ once: false }}
+        >
+          Client Profile: Women and men 40 and older, business executives, and elite athletes seeking affordable healthcare to live
+          their best lives with high-precision diagnostics, advanced treatment plans, and beneficial supplements.
+        </motion.p>
+
+        {/* <MembershipPlansWrapper delay={services.length * 0.1 + 0.3} /> */}
+
+        <motion.div
+          className="h-1 w-16 bg-blue-600 mx-auto mt-6 rounded-full"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ delay: 0.6, duration: 0.4, ease: 'easeOut' }}
+          style={{ transformOrigin: 'left' }}
+          viewport={{ once: false }}
+        />
+      </div>
+
+      <MembershipPlansWrapper delay={services.length * 0.1 + 0.3} />
+
+      {/* Services Grid */}
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl mb-12">
         {services.map(({ title, description, image, href }, idx) => (
           <motion.a
             key={idx}
@@ -75,19 +130,15 @@ export default function ServicesGrid() {
             whileHover={{ scale: 1.03 }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: idx * 0.1 }}
+            transition={{ duration: 0.4, delay: idx * 0.1, ease: 'easeOut' }}
+            viewport={{ once: false }}
           >
-            {/* Overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-60 transition-opacity duration-300" />
-
-            {/* Card Content */}
             <div className="relative z-10 flex flex-col justify-between h-full p-6 text-white">
               <div>
                 <h3 className="text-2xl font-bold mb-2 drop-shadow-md">{title}</h3>
                 <p className="text-sm drop-shadow-md">{description}</p>
               </div>
-
-              {/* Hover CTA */}
               <div className="flex items-center gap-2 mt-4 font-semibold text-white group-hover:text-blue-400 transition-colors duration-300">
                 <span>{title}</span>
                 <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -97,19 +148,8 @@ export default function ServicesGrid() {
         ))}
       </div>
 
-      {/* View Memberships Button */}
-      {/* <div className="flex justify-center mt-16">
-        <button
-          onClick={() => setShowMemberships(!showMemberships)}
-          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
-          aria-expanded={showMemberships}
-          aria-controls="membership-section"
-        >
-          {showMemberships ? 'Hide Memberships' : 'View Memberships'}
-        </button>
-      </div> */}
-
-<MembershipPlansWrapper />
+      {/* Membership Plans */}
+      {/* <MembershipPlansWrapper delay={services.length * 0.1 + 0.3} /> */}
     </section>
   )
 }

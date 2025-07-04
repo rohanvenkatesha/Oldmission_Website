@@ -9,12 +9,15 @@ import VideoSection from '../src/components/VideoSection'
 export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider>
-      <SubBranchBar />
-      <NotificationBar />
-          <Navbar />
+      {/* Fixed container for all three bars */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <SubBranchBar />
+        <NotificationBar />
+        <Navbar />
+      </div>
 
-      {/* Add padding top so content is not hidden under fixed Navbar */}
-      <main className="relative z-10 min-h-screen bg-white dark:bg-black">
+      {/* Add padding top equal to total height of all fixed bars */}
+      <main className="relative z-10 min-h-screen bg-white dark:bg-black pt-[128px]">
         <GlowingBackground />
 
         {/* VideoSection goes here */}
