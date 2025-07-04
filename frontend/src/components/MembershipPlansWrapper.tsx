@@ -43,74 +43,83 @@ export default function MembershipPlansWrapper({ delay = 0.9 }: Props) {
         }`}
       >
         {showMemberships && (
-          <>
-            <div className="flex items-center justify-between mb-6">
-              <button
-                onClick={handlePrev}
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-              >
-                <FaChevronLeft />
-              </button>
+          <Swiper
+            modules={[Navigation]}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            slidesPerView={1}
+            navigation={false}
+            pagination={false}
+            spaceBetween={30}
+            style={{ paddingBottom: '3rem' }}
+          >
+{memberships.map(({ type, plans }) => {
+  const isLastSlideWithTwoCards = plans.length === 2;
 
-              <h2 className="text-3xl font-semibold dark:text-white flex items-center gap-2">
-                Membership Types
-              </h2>
+  return (
+    <SwiperSlide key={type}>
+      <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={handlePrev}
+          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        >
+          <FaChevronLeft />
+        </button>
 
-              <button
-                onClick={handleNext}
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-              >
-                <FaChevronRight />
-              </button>
-            </div>
+        <h2 className="text-3xl font-semibold dark:text-white flex items-center gap-2">
+          {type}
+        </h2>
 
-            <Swiper
-              modules={[Navigation]}
-              onSwiper={(swiper) => (swiperRef.current = swiper)}
-              slidesPerView={1}
-              navigation={false}
-              pagination={false}
-              spaceBetween={30}
-              style={{ paddingBottom: '3rem' }}
+        <button
+          onClick={handleNext}
+          className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        >
+          <FaChevronRight />
+        </button>
+      </div>
+
+      {/* Wrap grid in flex container if 2 cards */}
+      <div className={isLastSlideWithTwoCards ? 'flex justify-center' : ''}>
+        <div
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-full ${
+            isLastSlideWithTwoCards ? 'max-w-lg' : 'max-w-full'
+          }`}
+        >
+          {plans.map(({ title, bullets, price }, idx) => (
+            <div
+              key={title}
+              className={`rounded-lg shadow-lg p-6 flex flex-col justify-between h-full ${
+                idx % 2 === 0
+                  ? 'bg-white dark:bg-gray-800'
+                  : 'bg-gray-50 dark:bg-gray-700'
+              }`}
             >
-              {memberships.map(({ type, plans }) => (
-                <SwiperSlide key={type}>
-                  <h3 className="text-2xl font-semibold mb-8 dark:text-white">{type}</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {plans.map(({ title, bullets, price }, idx) => (
-                      <div
-                        key={title}
-                        className={`rounded-lg shadow-lg p-6 flex flex-col justify-between h-full ${
-                          idx % 2 === 0
-                            ? 'bg-white dark:bg-gray-800'
-                            : 'bg-gray-50 dark:bg-gray-700'
-                        }`}
-                      >
-                        <h4 className="text-xl font-bold mb-4">{title}</h4>
-                        <ul
-                          className="mb-6 list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300"
-                          style={{ maxHeight: '280px', overflowY: 'auto' }}
-                        >
-                          {bullets.map((bullet, i) => (
-                            <li key={i}>{bullet}</li>
-                          ))}
-                        </ul>
-                        <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
-                          <p className="text-lg font-semibold">{price.start}</p>
-                          {price.monthly && (
-                            <p className="text-sm text-gray-500">{price.monthly}</p>
-                          )}
-                          <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
-                            Enroll
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </>
+              <h4 className="text-xl font-bold mb-4">{title}</h4>
+              <ul
+                className="mb-6 list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300"
+                style={{ maxHeight: '280px', overflowY: 'auto' }}
+              >
+                {bullets.map((bullet, i) => (
+                  <li key={i}>{bullet}</li>
+                ))}
+              </ul>
+              <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                <p className="text-lg font-semibold">{price.start}</p>
+                {price.monthly && (
+                  <p className="text-sm text-gray-500">{price.monthly}</p>
+                )}
+                <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
+                  Enroll
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </SwiperSlide>
+  );
+})}
+
+          </Swiper>
         )}
       </div>
     </section>
