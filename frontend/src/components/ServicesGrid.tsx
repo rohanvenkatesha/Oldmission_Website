@@ -78,9 +78,9 @@ export default function ServicesGrid() {
         </div>
 
         {/* Membership Button */}
-        <div className="mb-12">
+        {/* <div className="mb-12">
           <MembershipPlansWrapper delay={services.length * 0.1 + 0.3} />
-        </div>
+        </div> */}
 
         {/* Services Grid */}
         <motion.div
