@@ -1,0 +1,117 @@
+import React, { useState, useRef } from 'react'
+import { memberships } from '../data/memberships'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import { Navigation } from 'swiper'
+import { FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+
+export default function MembershipPlansWrapper() {
+  const [showMemberships, setShowMemberships] = useState(false)
+  const swiperRef = useRef<any>(null)
+
+  const handlePrev = () => {
+    swiperRef.current?.slidePrev()
+  }
+
+  const handleNext = () => {
+    swiperRef.current?.slideNext()
+  }
+
+  return (
+    <section className="max-w-7xl mx-auto py-16 px-6">
+      <div className="flex justify-center mb-10">
+        <button
+          onClick={() => setShowMemberships(!showMemberships)}
+          className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
+          aria-expanded={showMemberships}
+          aria-controls="membership-carousel"
+        >
+          {showMemberships ? 'Hide Memberships' : 'View Memberships'}
+        </button>
+      </div>
+
+      <div
+        id="membership-carousel"
+        className={`overflow-hidden transition-[max-height] duration-500 ease-in-out ${
+          showMemberships ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        {showMemberships && (
+          <>
+            {/* Membership Types Slider */}
+            <div className="flex items-center justify-between mb-6">
+              <button
+                aria-label="Previous Membership Type"
+                onClick={handlePrev}
+                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+              >
+                <FaChevronLeft />
+              </button>
+
+              <h2 className="text-3xl font-semibold dark:text-white flex items-center gap-2">
+                Membership Types
+              </h2>
+
+              <button
+                aria-label="Next Membership Type"
+                onClick={handleNext}
+                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+              >
+                <FaChevronRight />
+              </button>
+            </div>
+
+            <Swiper
+              modules={[Navigation]}
+              onSwiper={(swiper) => (swiperRef.current = swiper)}
+              slidesPerView={1}
+              navigation={false} // We use custom buttons
+              pagination={false}
+              spaceBetween={30}
+              style={{ paddingBottom: '3rem' }}
+            >
+              {memberships.map(({ type, plans }) => (
+                <SwiperSlide key={type}>
+                  <h3 className="text-2xl font-semibold mb-8 dark:text-white">{type}</h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {plans.map(({ title, bullets, price }, idx) => (
+                      <div
+                        key={title}
+                        className={`rounded-lg shadow-lg p-6 flex flex-col justify-between h-full ${
+                          idx % 2 === 0
+                            ? 'bg-white dark:bg-gray-800'
+                            : 'bg-gray-50 dark:bg-gray-700'
+                        }`}
+                      >
+                        <h4 className="text-xl font-bold mb-4">{title}</h4>
+                        <ul
+                          className="mb-6 list-disc list-inside text-sm space-y-1 text-gray-700 dark:text-gray-300"
+                          style={{ maxHeight: '280px', overflowY: 'auto' }}
+                        >
+                          {bullets.map((bullet, i) => (
+                            <li key={i}>{bullet}</li>
+                          ))}
+                        </ul>
+                        <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                          <p className="text-lg font-semibold">{price.start}</p>
+                          {price.monthly && (
+                            <p className="text-sm text-gray-500">{price.monthly}</p>
+                          )}
+                          <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
+                            Enroll
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </>
+        )}
+      </div>
+    </section>
+  )
+}
