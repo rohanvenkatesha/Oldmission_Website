@@ -1,4 +1,4 @@
-import { useContext } from 'react'
-import { ThemeContext } from '@/context/ThemeContext'
+// import { useContext } from 'react'
+// import { ThemeProvider } from /context/ThemeContext'
 
-export const useTheme = () => useContext(ThemeContext)
+// export const useTheme = () => useContext(ThemeProvider)
