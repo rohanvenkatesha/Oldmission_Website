@@ -38,7 +38,7 @@ export default function AestheticsNutritionGrid() {
         <motion.h2
           className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white"
         >
-          Aesthetics & IV Nutrition
+          AESTHETICS & IV NUTRITION
         </motion.h2>
 
         <motion.p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300">

@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
     <ThemeProvider>
       {/* Fixed container for all three bars */}
       <div className="fixed top-0 left-0 right-0 z-50">
-        <SubBranchBar />
+        {/* <SubBranchBar /> */}
         <NotificationBar />
         <Navbar />
       </div>
