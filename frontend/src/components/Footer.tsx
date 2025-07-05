@@ -353,7 +353,7 @@ import Image from 'next/image'
 
 // Data for your 6 branch logos
 const branchLogos = [
-    { src: '/logos/OMA.PNG', alt: 'Old Mission Aesthetics' },
+    { src: '/logos/OMA.png', alt: 'Old Mission Aesthetics' },
     { src: '/logos/omlm.png', alt: 'OM Lifestyle Medicine' },
     { src: '/logos/omem.png', alt: 'OM Emergency Medicine' },
     { src: '/logos/omivn.png', alt: 'OM IV Nutrition' },
