@@ -105,7 +105,7 @@ export default function Navbar() {
 
         {/* Mobile Expanded Links */}
         {mobileMenuOpen && (
-          <div className="w-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-6 pt-2 pb-4 rounded-b-xl space-y-4 transition-all duration-300 md:hidden">
+          <div className="w-full bg-white dark:bg-black text-gray-900 dark:text-white px-6 pt-2 pb-4 rounded-b-xl space-y-4 transition-all duration-300 md:hidden">
             <Link href="/" className="block hover:text-blue-600 transition" onClick={() => setMobileMenuOpen(false)}>
               Home
             </Link>
