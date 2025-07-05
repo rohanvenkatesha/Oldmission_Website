@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <div className="flex justify-center py-4 px-6 bg-transparent">
       <nav
-        className={`transition-all duration-300 ease-in-out flex flex-col items-center max-w-7xl w-full bg-white dark:bg-black rounded-xl shadow-lg relative ${
+        className={`transition-all duration-300 ease-in-out flex flex-col items-center max-w-7xl w-full bg-white dark:bg-black rounded-xl shadow-2xl relative ${
           mobileMenuOpen ? 'pb-6' : 'pb-0'
         }`}
       >

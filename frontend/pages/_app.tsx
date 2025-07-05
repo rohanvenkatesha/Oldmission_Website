@@ -43,8 +43,8 @@ export default function App({ Component, pageProps }) {
       {/* 4. Update the className of the fixed container */}
       <div 
         className={`
-          fixed top-0 left-0 right-0 z-50 site-header-container 
-          transition-transform duration-300 ease-in-out
+          fixed top-0 left-0 right-0 z-50 site-header-container
+          transition-transform duration-800 ease-in-out
           ${showNavbar ? 'translate-y-0' : '-translate-y-full'}
         `}
       >

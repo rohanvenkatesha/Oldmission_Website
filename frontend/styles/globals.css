@@ -118,3 +118,15 @@ body.modal-open .navbar {
   background-color: #3b82f6 !important; /* Blue color for the active dot */
   opacity: 1;
 }
+
+.form-input-glass {
+  @apply w-full p-4 bg-white/50 dark:bg-white/5 backdrop-blur-sm border border-gray-300 dark:border-white/10 rounded-lg text-gray-900 dark:text-white placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition;
+}
+
+.subtle-pattern {
+  background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
+  background-size: 15px 15px;
+}
+.dark .subtle-pattern {
+  background-image: radial-gradient(rgba(107, 114, 128, 0.2) 0.5px, transparent 0.5px);
+}
