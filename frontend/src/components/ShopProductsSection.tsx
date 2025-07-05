@@ -2,31 +2,43 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { FaArrowRight } from 'react-icons/fa'
 
-const aestheticsServices = [
+const shopProducts = [
   {
-    title: 'Regulatory Compliance',
-    description: 'Business-to-business solutions for compliance laws and ownership',
-    image: '/images/regulatory.png',
-    href: '#regulatory'
+    title: 'Vitamin C Serum',
+    description: 'Brighten your skin with our potent Vitamin C serum.',
+    image: '/images/product1.jpg',
+    href: '#vitamin-c-serum',
   },
   {
-    title: 'Clinical Liaison Services',
-    description: 'Modernize operations for premier patient care and profitability',
-    image: '/images/clinicalliason.png',
-    href: '#clinicalliason'
-  }
+    title: 'Hydrating Face Mask',
+    description: 'Deep hydration for dry and sensitive skin.',
+    image: '/images/product2.jpg',
+    href: '#hydrating-mask',
+  },
+  {
+    title: 'Organic Aloe Gel',
+    description: 'Soothing and moisturizing aloe vera gel for all skin types.',
+    image: '/images/product3.jpg',
+    href: '#aloe-gel',
+  },
+  {
+    title: 'SPF 50 Sunscreen',
+    description: 'Protect your skin from harmful UV rays with our lightweight formula.',
+    image: '/images/product4.jpg',
+    href: '#spf50-sunscreen',
+  },
 ]
 
-// Slide up variant
+// Reuse slide-up animation variant for consistency
 const slideUpVariant = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
 }
 
-export default function AestheticsNutritionGrid() {
+export default function ShopProductsSection() {
   return (
     <motion.section
-      id="iv-aesthetics"
+    id="shop"
       className="py-24 px-4 bg-gray-50 dark:bg-black/50 flex flex-col items-center justify-center"
       initial="hidden"
       whileInView="visible"
@@ -39,26 +51,12 @@ export default function AestheticsNutritionGrid() {
         <motion.h2
           className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white"
         >
-          AESTHETICS & IV NUTRITION
+          SHOP PRODUCTS
         </motion.h2>
 
         <motion.p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300">
-          Old Mission Medicine offers comprehensive business-to-business services to med spa and IV therapy practices seeking expert guidance to ensure state compliance, delivery of the highest standards of care, and practical business growth.
+          Explore our curated selection of skincare and wellness products designed to complement your health journey.
         </motion.p>
-
-        <motion.p className="mt-4 text-sm sm:text-base text-gray-500 dark:text-gray-400">
-          <strong>Client Profile:</strong> Non-physician healthcare professionals dedicated to delivering the most advanced services in aesthetics, IV nutrition, and wellness with directed regulatory compliance and solid business support by our enterprise leadership team.
-        </motion.p>
-
-        {/* Buttons */}
-        <motion.div className="mt-6 flex flex-wrap justify-center gap-4">
-          <button className="px-6 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition">
-            ALL SERVICES
-          </button>
-          <button className="px-6 py-3 bg-white text-blue-600 border border-blue-600 rounded-md shadow hover:bg-blue-50 transition dark:bg-transparent dark:text-white dark:border-white dark:hover:bg-white/10">
-            REQUEST MORE INFO
-          </button>
-        </motion.div>
 
         {/* Decorative divider */}
         <motion.div
@@ -70,24 +68,24 @@ export default function AestheticsNutritionGrid() {
         />
       </div>
 
-      {/* Services Grid */}
+      {/* Products Grid */}
       <motion.div
-        className="grid gap-8 sm:grid-cols-2 w-full max-w-4xl"
+        className="grid gap-8 sm:grid-cols-2 md:grid-cols-4 w-full max-w-6xl"
         variants={slideUpVariant}
         initial="hidden"
         whileInView="visible"
         transition={{ duration: 0.7, delay: 0.2 }}
         viewport={{ once: true, amount: 0.2 }}
       >
-        {aestheticsServices.map(({ title, description, image, href }, idx) => (
+        {shopProducts.map(({ title, description, image, href }, idx) => (
           <motion.a
             key={idx}
             href={href}
-            className="relative group rounded-lg shadow-lg overflow-hidden block h-64"
+            className="relative group rounded-lg shadow-lg overflow-hidden block h-72"
             style={{
               backgroundImage: `url(${image})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center'
+              backgroundPosition: 'center',
             }}
             whileHover={{ scale: 1.03 }}
             initial={{ opacity: 0, y: 20 }}
@@ -97,7 +95,7 @@ export default function AestheticsNutritionGrid() {
             {/* Overlay */}
             <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-60 transition-opacity duration-300" />
 
-            {/* Card Content */}
+            {/* Content */}
             <div className="relative z-10 flex flex-col justify-between h-full p-6 text-white">
               <div>
                 <h3 className="text-2xl font-bold mb-2 drop-shadow-md">{title}</h3>
@@ -105,7 +103,7 @@ export default function AestheticsNutritionGrid() {
               </div>
 
               <div className="flex items-center gap-2 mt-4 font-semibold text-white group-hover:text-blue-400 transition-colors duration-300">
-                <span>{title}</span>
+                <span>Shop Now</span>
                 <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
               </div>
             </div>

@@ -8,9 +8,9 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="flex justify-center py-4 px-6 bg-white dark:bg-gray-900">
+    <div className="flex justify-center py-4 px-6 bg-transparent">
       <nav
-        className={`transition-all duration-300 ease-in-out flex flex-col items-center max-w-7xl w-full bg-white dark:bg-gray-900 rounded-xl shadow-lg relative overflow-hidden ${
+        className={`transition-all duration-300 ease-in-out flex flex-col items-center max-w-7xl w-full bg-white dark:bg-black rounded-xl shadow-lg relative ${
           mobileMenuOpen ? 'pb-6' : 'pb-0'
         }`}
       >
@@ -21,8 +21,8 @@ export default function Navbar() {
             <Image
               src="/oldmissionmedicinelogo.png"
               alt="Old Mission Medicine Logo"
-              width={160}
-              height={40}
+              width={80}
+              height={20}
               priority
               className="cursor-pointer"
             />
@@ -74,7 +74,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href="#lifestyle" className="hover:text-blue-600 transition">
+            <Link href="#services" className="hover:text-blue-600 transition">
               Lifestyle Medicine
             </Link>
             <Link href="#iv-aesthetics" className="hover:text-blue-600 transition">
@@ -83,7 +83,7 @@ export default function Navbar() {
             <Link href="#shop" className="hover:text-blue-600 transition">
               Shop
             </Link>
-            <Link href="#contact" className="hover:text-blue-600 transition">
+            <Link href="#footer" className="hover:text-blue-600 transition">
               Contact
             </Link>
 

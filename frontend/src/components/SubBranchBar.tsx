@@ -11,7 +11,7 @@ const subBranches = [
 
 export default function SubBranchBar() {
   return (
-    <div className="bg-white dark:bg-gray-900 shadow-md py-2 px-6">
+    <div className="bg-white dark:bg-gray-900 shadow-md py-5 px-6">
       <div className="max-w-7xl mx-auto flex items-center justify-center space-x-8 overflow-x-auto scrollbar-hide">
         {subBranches.map(({ src, alt }) => (
           <div

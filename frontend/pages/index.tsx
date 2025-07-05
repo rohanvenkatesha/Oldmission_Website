@@ -28,13 +28,14 @@ import { motion } from 'framer-motion'
 import Hero from '../src/components/Hero'
 import ServicesGrid from '../src/components/ServicesGrid'
 import WhyChooseUs from '../src/components/WhyChooseUs'
-import Testimonials from '../src/components/Testimonials'
+import TestimonialCarousel from '../src/components/Testimonials'
 import ChatbotWidget from '../src/components/ChatbotWidget'
-import ContactSection from '../src/components/ContactSection'
+import ContactForm from '../src/components/ContactForm'
 import Footer from '../src/components/Footer'
 import QuoteSection from '../src/components/QuoteSection'
 import AestheticsNutritionGrid from '../src/components/AestheticsNutritionGrid'
 import WoundAndEmergencySections from '../src/components/WoundAndEmergencySections'
+import ShopProductsSection from '../src/components/ShopProductsSection'
 
 
 
@@ -126,18 +127,28 @@ export default function Home() {
         transition={{ duration: 0.7, delay: 0.5 }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <Testimonials />
+        <TestimonialCarousel />
       </motion.div>
 
-      <motion.div
+        <motion.div
         initial="hidden"
         whileInView="visible"
         variants={slideUpVariant}
         transition={{ duration: 0.7, delay: 0.6 }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <ContactSection />
+        <ShopProductsSection />
       </motion.div>
+
+      {/* <motion.div
+        initial="hidden"
+        whileInView="visible"
+        variants={slideUpVariant}
+        transition={{ duration: 0.7, delay: 0.6 }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <ContactForm />
+      </motion.div> */}
 
       <Footer />
     </div>

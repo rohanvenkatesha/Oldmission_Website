@@ -13,7 +13,7 @@ export default function WoundAndEmergencySections() {
 
         {/* Emergency Medicine Section */}
         <motion.div
-          className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 flex flex-col-reverse md:flex-row items-center gap-10
+          className="relative bg-white dark:bg-black/30 rounded-3xl shadow-xl p-8 flex flex-col-reverse md:flex-row items-center gap-10
             before:absolute before:top-0 before:left-0 before:right-0 before:h-4 before:rounded-t-3xl before:shadow-md before:z-[-1]"
           variants={sectionVariant}
           initial="hidden"
@@ -22,7 +22,7 @@ export default function WoundAndEmergencySections() {
           viewport={{ once: true, amount: 0.3 }}
         >
           {/* Text */}
-          <div className="flex-1 text-left md:pr-10">
+          <div className="flex-1 text-left px-8 py-8 md:pr-10">
             <img src="/logos/omem1.png" alt="Emergency Logo" className="h-12 mb-4" />
             <p className="text-sm font-semibold text-blue-500 uppercase mb-2">
               Hospital Management & Leadership Development
@@ -53,7 +53,7 @@ export default function WoundAndEmergencySections() {
 
         {/* Wound Care Section - Right Aligned */}
         <motion.div
-          className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 flex flex-col md:flex-row items-center gap-10
+          className="relative bg-white dark:bg-black/30 rounded-3xl shadow-xl p-8 flex flex-col md:flex-row items-center gap-10
             before:absolute before:top-0 before:left-0 before:right-0 before:h-4 before:rounded-t-3xl before:shadow-md before:z-[-1]"
           variants={sectionVariant}
           initial="hidden"
@@ -71,7 +71,7 @@ export default function WoundAndEmergencySections() {
           </div>
 
           {/* Text - Right Aligned */}
-          <div className="flex-1 text-right md:pl-10 order-1 md:order-2">
+          <div className="flex-1 text-right px-8 py-8 md:pl-10 order-1 md:order-2">
             <div className="flex justify-end">
               <img src="/logos/omwc1.png" alt="Wound Care Logo" className="h-12 mb-4" />
             </div>
