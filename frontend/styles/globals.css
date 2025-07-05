@@ -2,3 +2,119 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@tailwind base; @tailwind components; @tailwind utilities;
+
+body {
+  scroll-behavior: smooth;
+}
+
+/* globals.css or your styles */
+body.dark {
+  background-color: #000000;
+  color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+/* .scrollbar-hide::-webkit-scrollbar {
+  display: none;
+} */
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #2563eb;
+  width: 2.5rem;
+  height: 2.5rem;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  opacity: 1;
+}
+.swiper-pagination-bullet {
+  background: #2563eb;
+  opacity: 0.6;
+}
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+
+/* globals.css */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+body.modal-open .navbar {
+  display: none !important;
+}
+
+
+@media (max-width: 768px) {
+  body.modal-open .site-header-container {
+    display: none;
+  }
+}
+
+/* Custom Swiper Styles */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #ffffff !important; /* White arrow color */
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 9999px; /* Make it a circle */
+  width: 44px !important;
+  height: 44px !important;
+  transition: background-color 0.2s;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Make the arrow icons smaller inside the circle */
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 20px !important;
+  font-weight: 700;
+}
+
+/* Style for the pagination dots */
+.swiper-pagination-bullet {
+  background-color: #9ca3af !important; /* Gray color for inactive dots */
+  width: 10px !important;
+  height: 10px !important;
+  opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #3b82f6 !important; /* Blue color for the active dot */
+  opacity: 1;
+}

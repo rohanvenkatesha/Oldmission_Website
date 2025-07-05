@@ -36,6 +36,7 @@ import QuoteSection from '../src/components/QuoteSection'
 import AestheticsNutritionGrid from '../src/components/AestheticsNutritionGrid'
 import WoundAndEmergencySections from '../src/components/WoundAndEmergencySections'
 import ShopProductsSection from '../src/components/ShopProductsSection'
+import MeetOurTeam from '../src/components/MeetOurTeam'
 
 
 
@@ -68,6 +69,16 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
       >
         <QuoteSection/>
+      </motion.div>
+
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        variants={slideUpVariant}
+        transition={{ duration: 0.7, delay: 0.4 }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <ChatbotWidget />
       </motion.div>
 
       <motion.div
@@ -110,15 +121,7 @@ export default function Home() {
         <WhyChooseUs />
       </motion.div> */}
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.4 }}
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <ChatbotWidget />
-      </motion.div>
+
 
       <motion.div
         initial="hidden"
@@ -149,6 +152,16 @@ export default function Home() {
       >
         <ContactForm />
       </motion.div> */}
+
+        <motion.div
+        initial="hidden"
+        whileInView="visible"
+        variants={slideUpVariant}
+        transition={{ duration: 0.7, delay: 0.6 }}
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <MeetOurTeam />
+      </motion.div>
 
       <Footer />
     </div>
