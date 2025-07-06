@@ -7,6 +7,7 @@ import SubBranchBar from '../src/components/SubBranchBar'
 import Navbar from '../src/components/Navbar'
 import NotificationBar from '../src/components/NotificationBar'
 import VideoSection from '../src/components/VideoSection'
+import ChatbotWidget from '../src/components/ChatbotWidget'
 
 // 1. Import useState and useEffect
 import { useState, useEffect } from 'react'
@@ -59,6 +60,7 @@ export default function App({ Component, pageProps }) {
 
         {/* VideoSection goes here */}
         <VideoSection />
+        <ChatbotWidget/>
 
         {/* Page content */}
         <Component {...pageProps} />

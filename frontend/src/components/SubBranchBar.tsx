@@ -16,9 +16,9 @@ export default function SubBranchBar() {
         {subBranches.map(({ src, alt }) => (
           <div
             key={alt}
-            className="flex-shrink-0 cursor-pointer hover:scale-105 transform transition duration-300 rounded-md  bg-gray-100 dark:bg-gray-800"
+            className="flex-shrink-0 cursor-pointer hover:scale-105 transform transition duration-500 rounded-md p-1 bg-white dark:bg-black"
             title={alt}
-            style={{ filter: 'drop-shadow(0 0 3px rgba(0,0,0,0.3))' }}
+            style={{ filter: 'drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))' }}
           >
             <Image
               src={src}

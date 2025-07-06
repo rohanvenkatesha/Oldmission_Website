@@ -68,7 +68,7 @@ const itemVariants = {
 export default function Ecosystem() {
   return (
     <section id = "about-us" className="bg-white dark:bg-gray-900 py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-5 lg:px-8">
         {/* --- ABOUT US SECTION --- */}
         <motion.div
           className="max-w-3xl mx-auto text-center"
@@ -78,7 +78,7 @@ export default function Ecosystem() {
           viewport={{ once: true, amount: 0.5 }}
         >
           <h2 className="text-base font-semibold leading-7 text-blue-600 dark:text-blue-400">Our Vision</h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+          <p className="mt-2 text-4xl font-bold tracking-tight pt-5 text-gray-900 dark:text-white sm:text-5xl">
             A National Leader in Healthcare Innovation
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
