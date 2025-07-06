@@ -52,7 +52,7 @@ export default function MeetOurTeam() {
   }, [selectedId])
 
   return (
-    <section id="our-team" className="py-24 px-6 bg-gray-100 dark:bg-gray-900">
+    <section id="our-team" className="py-24 px-6 bg-gray-100 dark:bg-black">
       <div className="max-w-7xl mx-auto text-center">
         {/* --- LEADERSHIP SECTION --- */}
         <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">

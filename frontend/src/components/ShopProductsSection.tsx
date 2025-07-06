@@ -1,115 +1,190 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { FaArrowRight } from 'react-icons/fa'
+import React, { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { shopProducts } from '../data/shopproducts';
 
-const shopProducts = [
-  {
-    title: 'Vitamin C Serum',
-    description: 'Brighten your skin with our potent Vitamin C serum.',
-    image: '/images/product1.jpg',
-    href: '#vitamin-c-serum',
-  },
-  {
-    title: 'Hydrating Face Mask',
-    description: 'Deep hydration for dry and sensitive skin.',
-    image: '/images/product2.jpg',
-    href: '#hydrating-mask',
-  },
-  {
-    title: 'Organic Aloe Gel',
-    description: 'Soothing and moisturizing aloe vera gel for all skin types.',
-    image: '/images/product3.jpg',
-    href: '#aloe-gel',
-  },
-  {
-    title: 'SPF 50 Sunscreen',
-    description: 'Protect your skin from harmful UV rays with our lightweight formula.',
-    image: '/images/product4.jpg',
-    href: '#spf50-sunscreen',
-  },
-]
 
-// Reuse slide-up animation variant for consistency
-const slideUpVariant = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
-}
+// --- Reusable Icons ---
+const StoreIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+);
 
-export default function ShopProductsSection() {
-  return (
-    <motion.section
-    id="shop"
-      className="py-24 px-4 bg-gray-50 dark:bg-black/50 flex flex-col items-center justify-center"
-      initial="hidden"
-      whileInView="visible"
-      variants={slideUpVariant}
-      transition={{ duration: 0.7 }}
-      viewport={{ once: true, amount: 0.3 }}
+const ArrowButton = ({ onClick, direction }) => (
+    <motion.button
+        onClick={onClick}
+        className="bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700 rounded-full p-3 text-gray-800 dark:text-gray-200 shadow-lg z-10"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
     >
-      {/* Header */}
-      <div className="text-center mb-16 max-w-3xl">
-        <motion.h2
-          className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white"
-        >
-          SHOP PRODUCTS
-        </motion.h2>
+        {direction === 'left' ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+        ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+        )}
+    </motion.button>
+);
 
-        <motion.p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300">
-          Explore our curated selection of skincare and wellness products designed to complement your health journey.
-        </motion.p>
 
-        {/* Decorative divider */}
-        <motion.div
-          className="h-1 w-16 bg-blue-600 mx-auto mt-8 rounded-full"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          style={{ transformOrigin: 'left' }}
-        />
-      </div>
+// --- Main Shop Products Component ---
+function App() {
+  const scrollContainerRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
-      {/* Products Grid */}
-      <motion.div
-        className="grid gap-8 sm:grid-cols-2 md:grid-cols-4 w-full max-w-6xl"
-        variants={slideUpVariant}
-        initial="hidden"
-        whileInView="visible"
-        transition={{ duration: 0.7, delay: 0.2 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        {shopProducts.map(({ title, description, image, href }, idx) => (
-          <motion.a
-            key={idx}
-            href={href}
-            className="relative group rounded-lg shadow-lg overflow-hidden block h-72"
-            style={{
-              backgroundImage: `url(${image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-            whileHover={{ scale: 1.03 }}
-            initial={{ opacity: 0, y: 20 }}
+  const handleNext = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    const scrollEnd = scrollWidth - clientWidth;
+
+    if (scrollLeft >= scrollEnd - 1) {
+      scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
+
+  const handlePrev = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth } = scrollContainerRef.current;
+
+    if (scrollLeft <= 1) {
+      scrollContainerRef.current.scrollTo({ left: scrollWidth, behavior: 'smooth' });
+    } else {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  // --- Drag-to-scroll Logic ---
+  const onMouseDown = (e) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  useEffect(() => {
+    const onMouseMove = (e) => {
+      if (!isDragging || !scrollContainerRef.current) return;
+      e.preventDefault();
+      const x = e.pageX - scrollContainerRef.current.offsetLeft;
+      const walk = (x - startX) * 2; // The multiplier makes the scroll faster
+      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
+    const onMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mouseup', onMouseUp);
+      document.addEventListener('mousemove', onMouseMove);
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+    };
+  }, [isDragging, startX, scrollLeft]);
+
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1], // Quintic Out
+      },
+    },
+  };
+
+  return (
+    <div className="bg-gray-50 dark:bg-gray-900 font-sans">
+      <section id="shop" className="py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <motion.div
+            className="text-center mb-16 px-4"
+            initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: idx * 0.1 + 0.4 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-60 transition-opacity duration-300" />
+            <h2 className="text-4xl sm:text-5xl uppercase font-extrabold tracking-tight text-gray-900 dark:text-white">
+              Shop Our Products
+            </h2>
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Explore our curated selection of skincare and wellness products designed to complement your health journey.
+            </p>
+            <div className="h-1.5 w-20 bg-blue-600 mx-auto mt-8 rounded-full" />
+          </motion.div>
 
-            {/* Content */}
-            <div className="relative z-10 flex flex-col justify-between h-full p-6 text-white">
-              <div>
-                <h3 className="text-2xl font-bold mb-2 drop-shadow-md">{title}</h3>
-                <p className="text-sm drop-shadow-md">{description}</p>
-              </div>
-
-              <div className="flex items-center gap-2 mt-4 font-semibold text-white group-hover:text-blue-400 transition-colors duration-300">
-                <span>Shop Now</span>
-                <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-              </div>
+          {/* Products Carousel */}
+          <div className="relative">
+             <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 pl-4 sm:pl-6 z-10">
+                <ArrowButton onClick={handlePrev} direction="left" />
             </div>
-          </motion.a>
-        ))}
-      </motion.div>
-    </motion.section>
-  )
+            <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 pr-4 sm:pr-6 z-10">
+                <ArrowButton onClick={handleNext} direction="right" />
+            </div>
+
+            <motion.div
+              ref={scrollContainerRef}
+              className={`flex overflow-x-auto snap-x snap-mandatory scroll-smooth py-8 px-4 sm:px-6 gap-8 cursor-grab ${isDragging ? 'active:cursor-grabbing' : ''}`}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              style={{ scrollbarWidth: 'none' }}
+              onMouseDown={onMouseDown}
+            >
+              {shopProducts.map((product) => (
+                <motion.div
+                  key={product.title}
+                  className="group snap-center flex-shrink-0 w-[80%] sm:w-[48%] md:w-[31%] lg:w-[23%]"
+                  variants={itemVariants}
+                >
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 h-full flex flex-col hover:shadow-2xl hover:-translate-y-2">
+                    <div className="w-full h-80 overflow-hidden">
+                       <img
+                          src={product.image}
+                          alt={product.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out pointer-events-none" // Prevent image drag
+                        />
+                    </div>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">{product.category}</p>
+                      <h3 className="mt-2 text-lg font-bold text-gray-900 dark:text-white truncate">{product.title}</h3>
+                      <div className="mt-4 flex-grow flex items-end justify-between">
+                        <p className="text-xl font-extrabold text-gray-800 dark:text-white">
+                            {product.price}
+                        </p>
+                        <a href={product.href} className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-300">
+                            <StoreIcon />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }
+
+export default App;

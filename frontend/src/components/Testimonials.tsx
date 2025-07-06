@@ -1,206 +1,233 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { motion, useMotionValue, animate } from 'framer-motion'
+import { motion, useMotionValue, animate, AnimatePresence } from 'framer-motion' // Import AnimatePresence
+// Assuming 'testimonials' data is available globally or passed via props
+import { testimonials } from '../data/testimonials' // Commented out as it's not provided in this context
 
-const testimonials = [
-  {
-    id: 1947,
-    name: 'Dustin',
-    age: 52,
-    feedback:
-      "Dr Mason is a doctor that cares about your whole body and mind. I wouldn’t trust anyone else.",
-    image: '/images/avatar1.png',
-  },
-  {
-    id: 732,
-    name: 'Polly',
-    age: 44,
-    feedback:
-      'Doc is amazing! It has been a very long time since I had a Doctor actually care about my health and set up a viable medical plan vs. just trying to remedy the current health issue.',
-    image: '/images/avatar2.jpg',
-  },
-  {
-    id: 444,
-    name: 'Jarred',
-    age: 42,
-    feedback:
-      "I'd say the biggest impacts have been the consistency in my energy levels throughout the day.",
-    image: '/images/avatar3.png',
-  },
-  {
-    id: 111,
-    name: 'Shannon',
-    age: 38,
-    feedback:
-      'With Hone, I was able to get first class care from a doctor I chose. She was informed about the intersection of chronic illness and reproductive health, and had a plan made up for me quickly that addressed all my concerns.',
-    image: '/images/avatar1.png',
-  },
-  {
-    id: 194,
-    name: 'Josh',
-    age: 37,
-    feedback:
-      'Very comprehensive review of my blood test and results along with some very helpful suggestions on things I needed to do to address some of the numbers. Didn’t try to sell me on anything, just honest diagnosis.',
-    image: '/images/avatar2.jpg',
-  },
-  {
-    id: 222,
-    name: 'Maya',
-    age: 29,
-    feedback:
-      'The team was incredibly supportive and knowledgeable. My energy levels improved noticeably after just a month.',
-    image: '/images/avatar3.png',
-  },
-  {
-    id: 333,
-    name: 'Liam',
-    age: 35,
-    feedback:
-      "I appreciate the personalized approach. It's not just treatment; it's care that fits me perfectly.",
-    image: '/images/avatar1.png',
-  },
-  {
-    id: 4444,
-    name: 'Sophia',
-    age: 41,
-    feedback:
-      'Excellent service and very responsive staff. The care plan addressed issues I had struggled with for years.',
-    image: '/images/avatar2.jpg',
-  },
-  {
-    id: 555,
-    name: 'Ethan',
-    age: 47,
-    feedback:
-      "I felt listened to and truly cared for. The doctor's advice was practical and easy to follow.",
-    image: '/images/avatar3.png',
-  },
-  {
-    id: 666,
-    name: 'Olivia',
-    age: 33,
-    feedback:
-      'Fantastic experience overall. The care was holistic and really improved my quality of life.',
-    image: '/images/avatar2.jpg',
-  },
-]
+
 
 export default function TestimonialCarousel() {
   const x = useMotionValue(0)
   const [isPaused, setIsPaused] = useState(false)
   const offset = useRef(0)
-  const animationRef = useRef<ReturnType<typeof animate> | null>(null)
+  const animationRef = useRef(null)
+
+  // State to manage the currently selected testimonial for the modal
+  const [selectedTestimonial, setSelectedTestimonial] = useState(null);
 
   const CARD_WIDTH = 280 + 24 // card + gap
   const totalWidth = CARD_WIDTH * testimonials.length
   const loopWidth = totalWidth
 
+  // Double the testimonials array for seamless looping
   const doubleTestimonials = [...testimonials, ...testimonials]
 
+  // Function to start the automatic scroll animation
   const startAutoScroll = () => {
+    // Stop any existing animation to prevent conflicts
+    if (animationRef.current) {
+      animationRef.current.stop();
+    }
+
     animationRef.current = animate(x, -loopWidth, {
       type: 'tween',
-      duration: 60,
+      duration: 60, // Duration of the full loop
       ease: 'linear',
       onUpdate: (latest) => {
-        offset.current = latest
+        offset.current = latest; // Update the current offset
       },
       onComplete: () => {
-        x.set(0)
-        offset.current = 0
-        startAutoScroll()
+        x.set(0); // Reset x to 0 when animation completes
+        offset.current = 0; // Reset offset
+        startAutoScroll(); // Restart the animation for continuous loop
       },
-    })
-  }
+    });
+  };
 
+  // Effect hook to manage auto-scrolling based on pause state
   useEffect(() => {
-    if (!isPaused) {
-      startAutoScroll()
+    if (!isPaused && !selectedTestimonial) { // Only auto-scroll if not paused AND no modal is open
+      startAutoScroll();
     } else {
-      animationRef.current?.stop()
+      animationRef.current?.stop(); // Stop animation if paused or modal is open
     }
-    return () => animationRef.current?.stop()
-  }, [isPaused])
+    // Cleanup function to stop animation when component unmounts
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.stop();
+      }
+    };
+  }, [isPaused, x, loopWidth, selectedTestimonial]); // Added selectedTestimonial to dependencies
 
-  const handleSlide = (dir: 'left' | 'right') => {
-    setIsPaused(true)
-    const delta = dir === 'left' ? CARD_WIDTH : -CARD_WIDTH
-    const next = offset.current + delta
-    x.set(next)
-    offset.current = next
-  }
+  // Function to handle manual sliding of the carousel
+  const handleSlide = (dir) => {
+    setIsPaused(true); // Pause auto-scroll during manual slide
+    const delta = dir === 'left' ? CARD_WIDTH : -CARD_WIDTH; // Determine slide direction
+    const next = offset.current + delta; // Calculate next position
+    x.set(next); // Set the new x position
+    offset.current = next; // Update the current offset
+  };
 
-  // Helper to truncate long feedback text
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) return text
-    return text.slice(0, maxLength).trim() + '...'
-  }
+  // Helper to truncate long feedback text for display on cards
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength).trim() + '...';
+  };
+
+  // Function to open the modal with the full testimonial
+  const openTestimonialModal = (testimonial) => {
+    setSelectedTestimonial(testimonial);
+  };
+
+  // Function to close the modal
+  const closeTestimonialModal = () => {
+    setSelectedTestimonial(null);
+  };
+
+  // Testimonial Modal Component
+  const TestimonialModal = ({ testimonial, onClose }) => {
+    if (!testimonial) return null;
+
+    // Handle clicks on the overlay to close the modal
+    const handleOverlayClick = (e) => {
+      // Check if the click occurred directly on the overlay div, not its children
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    };
+
+    return (
+      <motion.div // This is now a motion.div for overlay animation
+        className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+        onClick={handleOverlayClick}
+        initial={{ opacity: 0 }} // Initial state for overlay opacity
+        animate={{ opacity: 1 }} // Animate to full opacity
+        exit={{ opacity: 0 }} // Animate to transparent on exit
+      >
+        <motion.div // This is the modal content itself, handles scale/opacity
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }} // Exit animation for modal content
+          className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden w-full max-w-2xl relative flex flex-col md:flex-row"
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-3xl font-bold z-10"
+            aria-label="Close"
+          >
+            &times;
+          </button>
+
+          {/* Image section in modal */}
+          <div className="w-full md:w-1/3 relative min-h-[200px] md:min-h-auto flex-shrink-0">
+            <img
+              src={testimonial.image}
+              alt={`${testimonial.name} avatar`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Text content section in modal */}
+          <div className="w-full md:w-2/3 p-8 flex flex-col justify-center text-gray-900 dark:text-white">
+            <p className="text-3xl font-bold mb-2">{testimonial.name}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-400 mb-6">{testimonial.age} years old</p>
+            <p className="text-lg leading-relaxed italic">
+              “{testimonial.feedback}”
+            </p>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  };
 
   return (
-    <section className="py-16 bg-gray-50 dark:bg-black/50 overflow-hidden relative">
-      <h2 className="text-3xl font-semibold mb-8 text-center max-w-7xl mx-auto px-4">
-        Real People. Real Stories.
+    <section className="py-16 bg-gray-50 dark:bg-black/50 overflow-hidden relative font-inter">
+      <h2 className="text-4xl font-extrabold mb-12 uppercase text-center text-gray-900 dark:text-white max-w-7xl mx-auto px-4">
+        Hear From Our Valued Clients
       </h2>
 
-      {/* Invisible arrow buttons */}
-      <button
-        onClick={() => handleSlide('left')}
-        className="absolute top-1/2 left-4 -translate-y-1/2 z-10 bg-black bg-opacity-30 rounded-full w-10 h-10 hover:bg-black/60"
-        aria-label="Slide Left"
-      />
-      <button
-        onClick={() => handleSlide('right')}
-        className="absolute top-1/2 right-4 -translate-y-1/2 z-10 bg-black bg-opacity-30 rounded-full w-10 h-10 hover:bg-black/60"
-        aria-label="Slide Right"
-      />
+      {/* Navigation Buttons */}
+      <div className="absolute top-1/2 left-0 right-0 flex justify-between transform -translate-y-1/2 z-20 px-4 md:px-8">
+        <button
+          onClick={() => handleSlide('left')}
+          className="bg-black/0 text-transparent rounded-full w-12 h-12 flex items-center justify-center
+                     hover:bg-black/30 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Slide Left"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={() => handleSlide('right')}
+          className="bg-black/0 text-transparent rounded-full w-12 h-12 flex items-center justify-center
+                     hover:bg-black/30 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Slide Right"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
 
       <div
         className="relative overflow-hidden"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+        onMouseEnter={() => setIsPaused(true)} // Pause on hover
+        onMouseLeave={() => setIsPaused(false)} // Resume on mouse leave
       >
         <motion.div
           style={{ x }}
-          className="flex gap-6 w-max px-4 select-none cursor-default md:cursor-grab"
+          className="flex gap-6 w-max px-4 select-none cursor-pointer md:cursor-grab" // Changed cursor to pointer
           drag="x"
           dragConstraints={{ left: -loopWidth, right: 0 }}
           dragElastic={0.2}
           onDragStart={() => setIsPaused(true)}
           onDragEnd={() => setIsPaused(false)}
         >
-          {doubleTestimonials.map(({ id, name, age, feedback, image }, i) => {
-            const imgHeight = 450
+          {doubleTestimonials.map((testimonial, i) => { // Use full testimonial object
+            const imgHeight = 450;
 
             return (
-              <div
+              <motion.div // Make the card itself a motion.div
                 key={i}
-                className="bg-white dark:bg-gray-800 rounded-3xl shadow-md min-w-[280px] max-w-[300px] flex-shrink-0 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg overflow-hidden relative"
+                layoutId={`testimonial-card-${testimonial.id}`} // Shared layout ID
+                className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg min-w-[280px] max-w-[300px] flex-shrink-0
+                           transition-all duration-300 hover:shadow-xl relative overflow-hidden // Re-added overflow-hidden here
+                           border border-gray-200 dark:border-gray-700"
+                onClick={() => openTestimonialModal(testimonial)} // Added onClick handler
               >
                 <div className="relative w-full" style={{ height: imgHeight }}>
-                  <img
-                    src={image}
-                    alt={`${name} avatar`}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  <motion.img // Make the image a motion.img
+                    layoutId={`testimonial-image-${testimonial.id}`} // Shared layout ID
+                    src={testimonial.image}
+                    alt={`${testimonial.name} avatar`}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110 rounded-t-3xl" // Added rounded-t-3xl here
                     draggable={false}
                   />
 
-                  {/* Softer gradient overlay starting a bit higher */}
-                  <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+                  {/* Enhanced gradient overlay for better text contrast */}
+                  <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
 
-                  {/* Text on overlay */}
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <span className="block text-lg font-semibold bg-black bg-opacity-50 rounded px-3 py-1 inline-block mb-2">
-                      {name}, {age}*
-                    </span>
-                    <p className="text-sm leading-relaxed max-h-20 overflow-hidden text-ellipsis">
-                      “{truncateText(feedback, 100)}”
+                  {/* Text content on overlay */}
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <motion.p layoutId={`testimonial-name-${testimonial.id}`} className="text-2xl font-bold mb-1">{testimonial.name}</motion.p>
+                    <motion.p layoutId={`testimonial-age-${testimonial.id}`} className="text-lg text-gray-300 mb-3">{testimonial.age}</motion.p>
+                    <p className="text-base leading-relaxed max-h-24 overflow-hidden text-ellipsis">
+                      “{truncateText(testimonial.feedback, 120)}”
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )
           })}
         </motion.div>
       </div>
+
+      {/* Testimonial Modal */}
+      <AnimatePresence> {/* Wrap with AnimatePresence */}
+        {selectedTestimonial && (
+          <TestimonialModal testimonial={selectedTestimonial} onClose={closeTestimonialModal} />
+        )}
+      </AnimatePresence>
     </section>
   )
 }
