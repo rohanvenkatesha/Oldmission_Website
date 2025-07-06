@@ -45,7 +45,7 @@ const subBrands = [
   },
   {
     name: 'Old Mission Lifetsyle',
-    logoSrc: '/logos/oml.png',
+    logoSrc: '/logos/oml1.png',
     description: 'Ensuring state and federal regulatory compliance for medical practices nationwide.',
     href: '/compliance'
   },
