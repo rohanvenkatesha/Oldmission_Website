@@ -35,6 +35,7 @@ import AestheticsNutritionGrid from '../src/components/AestheticsNutritionGrid'
 import WoundAndEmergencySections from '../src/components/WoundAndEmergencySections'
 import ShopProductsSection from '../src/components/ShopProductsSection'
 import MeetOurTeam from '../src/components/MeetOurTeam'
+import UniqueApproachSection from "../src/components/UniqueApproachSection"
 
 
 
@@ -52,7 +53,7 @@ export default function Home() {
         initial="hidden"
         whileInView="visible"
         variants={slideUpVariant}
-        transition={{ duration: 0.7 }}
+        transition={{ duration: 0.7, delay: 0.1 }}
         viewport={{ once: true, amount: 0.3 }}
       >
         <Hero />
@@ -109,15 +110,15 @@ export default function Home() {
         <WoundAndEmergencySections />
       </motion.div>
 
-      {/* <motion.div
+      <motion.div
         initial="hidden"
         whileInView="visible"
         variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.4 }}
+        transition={{ duration: 0.7, delay: 0.5 }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <WhyChooseUs />
-      </motion.div> */}
+        <UniqueApproachSection />
+      </motion.div>
 
 
 
@@ -125,7 +126,7 @@ export default function Home() {
         initial="hidden"
         whileInView="visible"
         variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.5 }}
+        transition={{ duration: 0.7, delay: 0.6 }}
         viewport={{ once: true, amount: 0.3 }}
       >
         <TestimonialCarousel />
@@ -135,27 +136,17 @@ export default function Home() {
         initial="hidden"
         whileInView="visible"
         variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.6 }}
+        transition={{ duration: 0.7, delay: 0.7 }}
         viewport={{ once: true, amount: 0.3 }}
       >
         <ShopProductsSection />
       </motion.div>
 
-      {/* <motion.div
-        initial="hidden"
-        whileInView="visible"
-        variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.6 }}
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        <ContactForm />
-      </motion.div> */}
-
         <motion.div
         initial="hidden"
         whileInView="visible"
         variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.6 }}
+        transition={{ duration: 0.7, delay: 0.8 }}
         viewport={{ once: true, amount: 0.3 }}
       >
         <MeetOurTeam />
