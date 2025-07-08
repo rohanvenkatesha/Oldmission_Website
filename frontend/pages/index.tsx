@@ -23,11 +23,11 @@ export default function Home() {
 
 
       <motion.div
-        initial="hidden"
-        whileInView="visible"
-        variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.1 }}
-        viewport={{ once: true, amount: 0.3 }}
+        // initial="hidden"
+        // whileInView="visible"
+        // variants={slideUpVariant}
+        // transition={{ duration: 0.7, delay: 0.1 }}
+        // viewport={{ once: true, amount: 0.3 }}
       >
         <Hero />
       </motion.div>
@@ -45,11 +45,11 @@ export default function Home() {
 
 
       <motion.div
-        initial="hidden"
-        whileInView="visible"
-        variants={slideUpVariant}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        viewport={{ once: true, amount: 0.3 }}
+        // initial="hidden"
+        // whileInView="visible"
+        // variants={slideUpVariant}
+        // transition={{ duration: 0.7, delay: 0.2 }}
+        // viewport={{ once: true, amount: 0.3 }}
       >
         <ServicesGrid />
       </motion.div>
