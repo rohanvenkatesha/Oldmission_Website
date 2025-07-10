@@ -92,13 +92,13 @@ const Chatbot: FC<ChatbotProps> = ({ onClose }) => {
     Current Year: 2025.
     `;
 
-  // Load saved session on mount from localStorage
+  // Load saved session on mount from sessionStorage
   useEffect(() => {
-    const savedMessages = localStorage.getItem("chatMessages");
-    const savedName = localStorage.getItem("userName");
-    const savedEmail = localStorage.getItem("userEmail");
-    const savedStage = localStorage.getItem("chatStage");
-    const savedCalendlyVisibility = localStorage.getItem("showCalendly");
+    const savedMessages = sessionStorage.getItem("chatMessages");
+    const savedName = sessionStorage.getItem("userName");
+    const savedEmail = sessionStorage.getItem("userEmail");
+    const savedStage = sessionStorage.getItem("chatStage");
+    const savedCalendlyVisibility = sessionStorage.getItem("showCalendly");
 
     if (savedMessages) {
       setMessages(JSON.parse(savedMessages));
@@ -118,13 +118,13 @@ const Chatbot: FC<ChatbotProps> = ({ onClose }) => {
     else if (savedStage === "booking_done") setShowCalendly(true);
   }, []);
 
-  // Save session on updates to localStorage
+  // Save session on updates to sessionStorage
   useEffect(() => {
-    localStorage.setItem("chatMessages", JSON.stringify(messages));
-    localStorage.setItem("userName", userName);
-    localStorage.setItem("userEmail", userEmail);
-    localStorage.setItem("chatStage", chatStage);
-    localStorage.setItem("showCalendly", JSON.stringify(showCalendly));
+    sessionStorage.setItem("chatMessages", JSON.stringify(messages));
+    sessionStorage.setItem("userName", userName);
+    sessionStorage.setItem("userEmail", userEmail);
+    sessionStorage.setItem("chatStage", chatStage);
+    sessionStorage.setItem("showCalendly", JSON.stringify(showCalendly));
   }, [messages, userName, userEmail, chatStage, showCalendly]);
 
   useEffect(() => {
@@ -150,16 +150,16 @@ const Chatbot: FC<ChatbotProps> = ({ onClose }) => {
   const sendToAI = async (newMessageContent: string, includeWebsiteContext: boolean = true) => {
     const systemMessageContent = includeWebsiteContext
       ? `You are a helpful and knowledgeable AI assistant for Old Mission Medicine.
-         Your primary goal is to answer questions STRICTLY based on the provided 'websiteContext' information about Old Mission Medicine's services, brands, team, and operations.
-         DO NOT use general medical knowledge, make assumptions, or provide information not explicitly stated in the 'websiteContext'.
-         If you cannot find the answer in the provided 'websiteContext', politely state that the information is not available in your current knowledge base and suggest checking the Old Mission Medicine website or contacting them directly.
-         Provide 2-3 line answers if detailed information is required, otherwise very short answers.
-         The current year is 2025.
-         The current location is Westwood, Michigan, United States.
+          Your primary goal is to answer questions STRICTLY based on the provided 'websiteContext' information about Old Mission Medicine's services, brands, team, and operations.
+          DO NOT use general medical knowledge, make assumptions, or provide information not explicitly stated in the 'websiteContext'.
+          If you cannot find the answer in the provided 'websiteContext', politely state that the information is not available in your current knowledge base and suggest checking the Old Mission Medicine website or contacting them directly.
+          Provide 2-3 line answers if detailed information is required, otherwise very short answers.
+          The current year is 2025.
+          The current location is Westwood, Michigan, United States.
 
-         --- Start of websiteContext ---
-         ${websiteContext}
-         --- End of websiteContext ---
+          --- Start of websiteContext ---
+          ${websiteContext}
+          --- End of websiteContext ---
         `
       : `You are a helpful and friendly AI assistant for Old Mission Medicine. Respond briefly and engagingly to initial greetings or general small talk. Provide very short answers.`; // Simpler system prompt for general chat
 
